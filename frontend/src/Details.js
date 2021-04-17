@@ -1,33 +1,45 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setUser } from './reducer';
+import { setLanguage } from './reducer';
 import './App.css';
 
 class Details extends Component {
- onClickUser() {
-  const { setUser, history } = this.props;
-  setUser();
+ onClickLanguage() {
+  const { setLanguage, history } = this.props;
+  setLanguage();
   history.push('/');
  }
 
  render() {
-  const { user } = this.props;
+  const { language } = this.props;
+
   return (
    <>
-    <button className="container p-1 m-1" onClick={() => this.onClickUser()}>
+    <button
+     className="container p-1 m-1"
+     onClick={() => this.onClickLanguage()}
+    >
      Back
     </button>
-    {Object.keys(user).length > 0 && (
+    {Object.keys(language).length > 0 && (
      <>
       <div className="container p-1 m-1">
+       <img
+        src={language.image}
+        className="img-rounded col"
+        alt="langImage"
+        width="304"
+        height="236"
+       />
        <div className="row">
-        <span className="col-sm">{user.id}</span>
-        <span className="col-sm">{user.name}</span>
-        <span className="col-sm">{user.email}</span>
-        <span className="col-sm">{user.phone}</span>
-        <span className="col-sm">{user.username}</span>
-        <span className="col-sm">{user.website}</span>
+        <span className="col-sm">
+         Native Name: {language.languageNameNative}
+        </span>
+        <span className="col-sm">
+         EngLish Name: {language.languageNameEnglish}
+        </span>
+        <span className="col-sm">State: {language.statae}</span>
        </div>
       </div>
      </>
@@ -43,7 +55,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
  return {
-  setUser: (user) => dispatch(setUser(user)),
+  setLanguage: (lang) => dispatch(setLanguage(lang)),
  };
 };
 

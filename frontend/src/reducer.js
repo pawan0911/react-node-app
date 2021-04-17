@@ -1,34 +1,26 @@
 import axios from 'axios';
 
-export const SET_TOKEN = 'SET_TOKEN';
-export const SET_USERS = 'SET_USERS';
-export const SET_USER = 'SET_USER';
+export const SET_LANGUAGES = 'SET_LANGUAGES';
+export const SET_LANGUAGE = 'SET_LANGUAGE';
 
-export function setToken(token) {
+export function setLanguages(langs) {
  return {
-  type: SET_TOKEN,
-  payload: token,
+  type: SET_LANGUAGES,
+  payload: langs,
  };
 }
 
-export function setUsers(users) {
+export function setLanguage(lang = {}) {
  return {
-  type: SET_USERS,
-  payload: users,
+  type: SET_LANGUAGE,
+  payload: lang,
  };
 }
 
-export function setUser(user = {}) {
- return {
-  type: SET_USER,
-  payload: user,
- };
-}
-
-export const getUsers = () => {
+export const getLanguages = () => {
  return (dispatch) => {
   return axios({
-   url: `http://localhost:9000/users`,
+   url: `http://localhost:9000/`,
    headers: {
     'Content-Type': 'application/json',
    },
@@ -36,29 +28,24 @@ export const getUsers = () => {
    responseType: 'json',
   })
    .then((response) => {
-    dispatch(setUsers(response.data.data));
+    dispatch(setLanguages(response.data));
    })
    .catch((err) => {});
  };
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (state = { token: '', users: [], user: {} }, action) => {
+export default (state = { languages: [], language: {} }, action) => {
  switch (action.type) {
-  case SET_TOKEN:
+  case SET_LANGUAGES:
    return {
     ...state,
-    token: action.payload,
+    languages: action.payload,
    };
-  case SET_USERS:
+  case SET_LANGUAGE:
    return {
     ...state,
-    users: action.payload,
-   };
-  case SET_USER:
-   return {
-    ...state,
-    user: action.payload,
+    language: action.payload,
    };
   default:
    return state;

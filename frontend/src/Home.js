@@ -2,38 +2,45 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { setToken, getUsers, setUser } from './reducer';
+import { getLanguages, setLanguage } from './reducer';
 import './App.css';
 
 class Home extends Component {
  async componentDidMount() {
-  const { getUsers } = this.props;
-  await getUsers();
+  const { getLanguages } = this.props;
+  await getLanguages();
  }
 
- onClickUser(user) {
-  const { setUser, history } = this.props;
-  setUser(user);
+ onClickCard(langDetails) {
+  const { setLanguage, history } = this.props;
+  setLanguage(langDetails);
   history.push('/details');
  }
 
  render() {
-  const { users } = this.props;
+  const { languages } = this.props;
   return (
    <div className="App m-2 p-2">
-    {users &&
-     users.length > 0 &&
-     users.map((user, i) => {
+    {languages.data &&
+     languages.data.length > 0 &&
+     languages.data.map((lang, i) => {
       return (
-       <div className="container p-1 m-1" key={user.id}>
+       <div className="container p-1 m-1" key={lang.id}>
         <div className="row">
          <span className=".col- pr-1 mr-2">{i + 1}</span>
-         <span
+         <div
           className="col-sm clickAbleDiv"
-          onClick={() => this.onClickUser(user)}
+          onClick={() => this.onClickCard(lang)}
          >
-          {user.name}
-         </span>
+          <img
+           src={lang.image}
+           className="rounded-circle"
+           alt="langImage"
+           width="304"
+           height="236"
+          />
+          {lang.languageNameNative}
+         </div>
         </div>
        </div>
       );
@@ -49,9 +56,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
  return {
-  setToken: (token) => dispatch(setToken(token)),
-  getUsers: () => dispatch(getUsers()),
-  setUser: (user) => dispatch(setUser(user)),
+  getLanguages: () => dispatch(getLanguages()),
+  setLanguage: (lang) => dispatch(setLanguage(lang)),
  };
 };
 
